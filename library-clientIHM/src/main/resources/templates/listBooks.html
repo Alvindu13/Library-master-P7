@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<html lang="fr">
+<head>
+    <title>Les livres</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+<div class="container">
+    <h1>Liste des livres disponibles</h1>
+
+    <div class="container unauthenticated">
+        With Facebook: <a href="/login">click here</a>
+    </div>
+    test <td th:text="${username}"></td>
+</div>
+
+
+
+<div class="row col-md-7 table-responsive">
+    <table id="customerTable" class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Auteur</th>
+            <th>Prix</th>
+            <th>Genre</th>
+            <th>Examplaires disponibles</th>
+            <th>Réservation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book, rowStat: ${books}"
+            th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
+            <td th:text="${book.name}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.price}"></td>
+            <td th:text="${book.genre}"></td>
+            <td th:text="${book.quantity}"></td>
+
+            <td>
+                <form class="login-form" th:action="@{/books/date(id=${book.id})}"  method='POST'>
+                        <button th:if="${book.available eq true}" name = "submit" type="submit" class="btn btn-warning">RESERVER</button>
+                        <button th:if="${book.available eq false}" type="button" class="btn btn-secondary btn-lg" disabled>INDISPONIBLE</button>
+                </form>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+</body>
+
+
