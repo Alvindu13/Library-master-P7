@@ -1,6 +1,6 @@
-package com.library.svc.contracts;
+package com.library.persistance.svc.contracts;
 
-import com.library.dao.model.Book;
+import com.library.persistance.dao.model.Book;
 
 import java.util.List;
 

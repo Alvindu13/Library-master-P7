@@ -1,6 +1,6 @@
-package com.library.dao.repository;
+package com.library.persistance.dao.repository;
 
-import com.library.dao.model.AppRole;
+import com.library.persistance.dao.model.AppRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 

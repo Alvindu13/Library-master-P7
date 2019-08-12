@@ -1,7 +1,7 @@
-package com.library.svc.security;
+package com.library.security;
 
-import com.library.dao.model.AppRole;
-import com.library.dao.model.AppUser;
+import com.library.persistance.dao.model.AppRole;
+import com.library.persistance.dao.model.AppUser;
 
 public interface AccountService {
 

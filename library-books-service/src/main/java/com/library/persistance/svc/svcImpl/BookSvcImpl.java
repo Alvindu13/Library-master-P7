@@ -1,10 +1,9 @@
-package com.library.svc.svcImpl;
+package com.library.persistance.svc.svcImpl;
 
-import com.library.dao.model.Book;
-import com.library.dao.repository.BookRepository;
-import com.library.svc.contracts.BookSvc;
+import com.library.persistance.dao.model.Book;
+import com.library.persistance.dao.repository.BookRepository;
+import com.library.persistance.svc.contracts.BookSvc;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

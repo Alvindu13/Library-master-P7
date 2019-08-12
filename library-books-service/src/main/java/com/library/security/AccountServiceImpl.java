@@ -1,10 +1,10 @@
-package com.library.svc.security;
+package com.library.security;
 
 
-import com.library.dao.model.AppRole;
-import com.library.dao.model.AppUser;
-import com.library.dao.repository.AppRoleRepository;
-import com.library.dao.repository.AppUserRepository;
+import com.library.persistance.dao.model.AppRole;
+import com.library.persistance.dao.model.AppUser;
+import com.library.persistance.dao.repository.AppRoleRepository;
+import com.library.persistance.dao.repository.AppUserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

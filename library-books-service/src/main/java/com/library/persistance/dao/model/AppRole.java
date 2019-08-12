@@ -1,4 +1,4 @@
-package com.library.dao.model;
+package com.library.persistance.dao.model;
 
 
 import lombok.AllArgsConstructor;

@@ -1,7 +1,6 @@
 package com.library.security;
 
-import com.library.dao.model.AppUser;
-import com.library.svc.security.AccountService;
+import com.library.persistance.dao.model.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

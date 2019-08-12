@@ -1,14 +1,10 @@
-package com.library.dao.model;
+package com.library.persistance.dao.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import javax.validation.constraints.Null;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 
 @Data

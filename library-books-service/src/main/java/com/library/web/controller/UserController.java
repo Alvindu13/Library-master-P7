@@ -1,8 +1,8 @@
 package com.library.web.controller;
 
 
-import com.library.dao.model.AppUser;
-import com.library.svc.security.AccountService;
+import com.library.persistance.dao.model.AppUser;
+import com.library.security.AccountService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
