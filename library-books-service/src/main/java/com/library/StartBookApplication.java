@@ -40,11 +40,10 @@ public class StartBookApplication {
                     accountService.loadUserByUsername("user1")));
             bookSvc.save(new Book(2L, "Titanic", "Caprio", 12.99,
                     "Drama", 7L, true, null,
-                    null, null,
+                    "unknow.png", null,
                     accountService.loadUserByUsername("user1")));
 
         };
-
 
 
     }
