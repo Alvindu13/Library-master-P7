@@ -1,6 +1,6 @@
 package com.library.web.controller;
 
-/*import com.library.persistance.dao.model.Book;
+import com.library.persistance.dao.model.Book;
 import com.library.persistance.dao.repository.BookRepository;
 import com.library.web.exceptions.BookNotFoundException;
 import com.library.web.exceptions.BookUnSupportedFieldPatchException;
@@ -26,6 +26,15 @@ public class BookController {
     @Autowired
     private BookRepository repository;
 
+    @GetMapping("/selected/{keyword}")
+    List<Book> findBookByKeyword(@PathVariable("keyword") String keyword) {
+        return repository.findByNameContains(keyword);
+    }
+
+
+
+}
+/*
     // Find
     @GetMapping()
     List<Book> findAll() {
