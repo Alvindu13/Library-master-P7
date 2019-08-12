@@ -33,8 +33,15 @@ public class StartBookApplication {
             accountService.addRoleToUser("admin", "ADMIN");
 
 
-            bookSvc.save(new Book(1L, "A Guide to the Bodhisattva Way of Life", "Santideva", 12.99, "Aventure", 7L, true, null, null, accountService.loadUserByUsername("user1")));
-            bookSvc.save(new Book(2L, "Titanic", "Caprio", 12.99, "Drama", 7L, true, null, null, accountService.loadUserByUsername("user1")));
+            bookSvc.save(new Book(
+                    1L, "A Guide to the Bodhisattva Way of Life", "Santideva",
+                    12.99, "Aventure", 7L, true,
+                    null, null, null,
+                    accountService.loadUserByUsername("user1")));
+            bookSvc.save(new Book(2L, "Titanic", "Caprio", 12.99,
+                    "Drama", 7L, true, null,
+                    null, null,
+                    accountService.loadUserByUsername("user1")));
 
         };
 

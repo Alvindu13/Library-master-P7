@@ -1,6 +1,6 @@
 package com.library.web.controller;
 
-/*import com.library.persistance.dao.model.Book;
+import com.library.persistance.dao.model.Book;
 import com.library.persistance.dao.repository.BookRepository;
 import com.library.web.exceptions.BookNotFoundException;
 import com.library.web.exceptions.BookUnSupportedFieldPatchException;
@@ -26,6 +26,29 @@ public class BookController {
     @Autowired
     private BookRepository repository;
 
+    /**
+     * Renvoie des livres qui contiennent le paramètre dans leur nom.
+     * @param keyword
+     * @return
+     */
+    @GetMapping("/selected/{keyword}")
+    List<Book> findAllByKeyword(@PathVariable("keyword") String keyword) {
+        return repository.findAllByNameContains(keyword);
+    }
+
+
+    /**
+     * Renvoie les livres réservés par l'utilisateur connecté
+     * @param borrowerId
+     * @return
+     */
+    @GetMapping("/user/{borrowerId}")
+    List<Book> findAllByBorrowerId(@PathVariable("borrowerId") Long borrowerId) {
+        return repository.findAllByBorrowerId(borrowerId);
+    }
+
+}
+/*
     // Find
     @GetMapping()
     List<Book> findAll() {

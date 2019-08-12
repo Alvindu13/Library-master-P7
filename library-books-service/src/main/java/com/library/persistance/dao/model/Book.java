@@ -32,6 +32,9 @@ public class Book {
     @Nullable
     private Boolean isProlongation;
 
+    @Nullable
+    private String photoName;
+
     /*@Nullable
     @Temporal(TemporalType.DATE)
     private Date borrowDate;*/
