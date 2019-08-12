@@ -1,21 +1,53 @@
 package com.library;
 
+import com.library.dao.model.AppRole;
+import com.library.dao.model.Book;
+import com.library.dao.repository.BookRepository;
+import com.library.svc.contracts.BookSvc;
+import com.library.svc.security.AccountService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.math.BigDecimal;
+import java.util.stream.Stream;
 
-@SpringBootApplication(exclude = {
-        org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class}
-        )
+@SpringBootApplication
 public class StartBookApplication {
 
     // start everything
     public static void main(String[] args) {
         SpringApplication.run(StartBookApplication.class, args);
+    }
+
+
+    @Bean
+    CommandLineRunner start(AccountService accountService, BookRepository bookSvc){
+        return args -> {
+            accountService.saveRole((new AppRole(null, "USER")));
+            accountService.saveRole((new AppRole(null, "ADMIN")));
+
+            Stream.of("user1", "user2", "user3", "admin").forEach(un->{
+                accountService.saveUser(un, "1234", "1234");
+            });
+            accountService.addRoleToUser("admin", "ADMIN");
+
+
+            bookSvc.save(new Book(1L, "A Guide to the Bodhisattva Way of Life", "Santideva", 12.99, "Aventure", 7L, true, null, null, accountService.loadUserByUsername("user1")));
+
+        };
+
+
+
+    }
+
+
+    @Bean
+    BCryptPasswordEncoder getBCPE(){
+        return new BCryptPasswordEncoder();
     }
 
     /* run this only on profile 'demo', avoid run this in test

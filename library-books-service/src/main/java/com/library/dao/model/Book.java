@@ -43,8 +43,10 @@ public class Book {
     @Nullable
     private LocalDateTime borrowDate;
 
+    //@JsonIgnore
+    @ManyToOne
     @Nullable
-    private Long borrowerId;
+    private AppUser borrower;
 
 }
 
