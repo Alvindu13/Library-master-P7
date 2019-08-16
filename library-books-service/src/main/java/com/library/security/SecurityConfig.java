@@ -39,11 +39,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();//obligatoire pour jwt token car empêche les requêtes en post etc
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //on utilise plus les sessions de spring (sessions de l'user en mémoire)
-        http.authorizeRequests().antMatchers("/appUsers/**", "/appRoles/**").hasAuthority("ADMIN");
+        //http.authorizeRequests().antMatchers("/appUsers/**", "/appRoles/**").hasAuthority("ADMIN");
         http.authorizeRequests().antMatchers("/login/**", "/register/**").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/books/**").permitAll();
-        http.authorizeRequests().antMatchers("/books/**").hasAuthority("ADMIN");
-        http.authorizeRequests().anyRequest().authenticated();
+        //http.authorizeRequests().antMatchers(HttpMethod.GET, "/books/**").permitAll();
+        //http.authorizeRequests().antMatchers("/books/**").hasAuthority("ADMIN");
+        //http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests().anyRequest().permitAll(); // a delete après test
         http.addFilter(new JWTAuthenticationFilter(authenticationManager()));
         http.addFilterBefore(new JWTAuthorizationFilter() , UsernamePasswordAuthenticationFilter.class);
     }

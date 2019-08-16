@@ -1,19 +1,27 @@
 package com.library;
 
 import com.library.persistance.dao.model.AppRole;
+import com.library.persistance.dao.model.AppUser;
 import com.library.persistance.dao.model.Book;
 import com.library.persistance.dao.repository.BookRepository;
 import com.library.security.AccountService;
+import com.library.web.controller.UserController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.stream.Stream;
 
 @SpringBootApplication
 public class StartBookApplication {
+
+
+    @Autowired
+    private RepositoryRestConfiguration restConfiguration;
 
     // start everything
     public static void main(String[] args) {
@@ -23,6 +31,12 @@ public class StartBookApplication {
 
     @Bean
     CommandLineRunner start(AccountService accountService, BookRepository bookSvc){
+
+        restConfiguration.exposeIdsFor(AppUser.class);
+        restConfiguration.exposeIdsFor(AppRole.class);
+        restConfiguration.exposeIdsFor(Book.class);
+
+
         return args -> {
             accountService.saveRole((new AppRole(null, "USER")));
             accountService.saveRole((new AppRole(null, "ADMIN")));
@@ -35,13 +49,17 @@ public class StartBookApplication {
 
             bookSvc.save(new Book(
                     1L, "A Guide to the Bodhisattva Way of Life", "Santideva",
-                    12.99, "Aventure", 7L, true,
+                    12.99, "Aventure", 7L, false,
                     null, null, null,
                     accountService.loadUserByUsername("user1")));
             bookSvc.save(new Book(2L, "Titanic", "Caprio", 12.99,
                     "Drama", 7L, true, null,
                     "unknow.png", null,
                     accountService.loadUserByUsername("user1")));
+            bookSvc.save(new Book(3L, "Titanic", "Rose", 12.99,
+                    "Drama", 7L, true, null,
+                    "unknow.png", null,
+                    accountService.loadUserByUsername("user2")));
 
         };
 
