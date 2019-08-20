@@ -12,6 +12,8 @@ public interface BookSvc {
 
     public void reserve(Book book, AppUser appUser);
 
+    public void extend(Book book);
+
 
 
 }

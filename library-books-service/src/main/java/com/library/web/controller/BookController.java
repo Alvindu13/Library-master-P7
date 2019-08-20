@@ -62,6 +62,12 @@ public class BookController {
         svc.reserve(repository.findBookById(bookId), currentUser);
     }
 
+
+    @PatchMapping("/extend/{bookId}")
+    void reserveExtend( @PathVariable("bookId") Long bookId) {
+        svc.extend(repository.findBookById(bookId));
+    }
+
 }
 /*
     // Find

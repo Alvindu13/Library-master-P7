@@ -47,6 +47,21 @@ public class Book {
     @Nullable
     private AppUser borrower;
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", price=" + price +
+                ", genre='" + genre + '\'' +
+                ", available=" + available +
+                ", isProlongation=" + isProlongation +
+                ", photoName='" + photoName + '\'' +
+                ", borrowDate=" + borrowDate +
+                ", borrower=" + borrower +
+                '}';
+    }
 }
 
 
