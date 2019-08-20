@@ -17,6 +17,11 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
 
     List<Book> findAllByNameContains(@Param("keyword") String keyword);
+
+
+    Book findBookById(Long bookId);
+
+
 }
 
 

@@ -9,6 +9,8 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -30,4 +32,7 @@ public class AppUser {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<AppRole> roles = new ArrayList<>();
+
+    /*@OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
+    private Set<Book> books;*/
 }

@@ -23,8 +23,7 @@ public class Book {
 
     //Genre du livre
     private String genre;
-    //Nombre d'exemplaires
-    private Long quantity;
+
 
     @Column(columnDefinition = "boolean default true")
     private Boolean available;
@@ -44,6 +43,7 @@ public class Book {
 
     //@JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "borrower_id")
     @Nullable
     private AppUser borrower;
 

@@ -48,18 +48,24 @@ public class StartBookApplication {
 
 
             bookSvc.save(new Book(
-                    1L, "A Guide to the Bodhisattva Way of Life", "Santideva",
-                    12.99, "Aventure", 7L, false,
+                    1L, "A Guide to the Bodhisattva Way of Life", "Santideva", 12.99,
+                    "Aventure", false,
                     null, null, null,
                     accountService.loadUserByUsername("user1")));
-            bookSvc.save(new Book(2L, "Titanic", "Caprio", 12.99,
-                    "Drama", 7L, true, null,
-                    "unknow.png", null,
+            bookSvc.save(new Book(2L, "Titanic", "Caprio", 8.99,
+                    "Drama", true,
+                    null, "unknow.png", null,
                     accountService.loadUserByUsername("user1")));
-            bookSvc.save(new Book(3L, "Titanic", "Rose", 12.99,
-                    "Drama", 7L, true, null,
-                    "unknow.png", null,
+            bookSvc.save(new Book(3L, "Titanic", "Rose", 4.99,
+                    "Drama", true,
+                    null, "unknow.png", null,
                     accountService.loadUserByUsername("user2")));
+
+            bookSvc.save(new Book(
+                    4L, "A Guide to the Bodhisattva Way of Life", "Santideva", 12.99,
+                    "Aventure", false,
+                    null, null, null,
+                    accountService.loadUserByUsername("user1")));
 
         };
 

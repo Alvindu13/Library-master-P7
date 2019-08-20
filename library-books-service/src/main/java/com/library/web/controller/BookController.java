@@ -1,10 +1,12 @@
 package com.library.web.controller;
 
+import com.library.persistance.dao.model.AppUser;
 import com.library.persistance.dao.model.Book;
 import com.library.persistance.dao.repository.BookRepository;
+import com.library.persistance.svc.contracts.BookSvc;
+import com.library.security.AccountService;
 import com.library.web.exceptions.BookNotFoundException;
 import com.library.web.exceptions.BookUnSupportedFieldPatchException;
-import com.library.web.model.Count;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,12 @@ public class BookController {
     @Autowired
     private BookRepository repository;
 
+    @Autowired
+    private BookSvc svc;
+
+    @Autowired
+    private AccountService svcUser;
+
     /**
      * Renvoie des livres qui contiennent le paramètre dans leur nom.
      * @param keyword
@@ -45,6 +53,13 @@ public class BookController {
     @GetMapping("/user/{borrowerId}")
     List<Book> findAllByBorrowerId(@PathVariable("borrowerId") Long borrowerId) {
         return repository.findAllByBorrowerId(borrowerId);
+    }
+
+
+    @PatchMapping("/{username}/reserve/{bookId}")
+    void reserveBook(@PathVariable("username") String username, @PathVariable("bookId") Long bookId) {
+        AppUser currentUser = svcUser.loadUserByUsername(username);
+        svc.reserve(repository.findBookById(bookId), currentUser);
     }
 
 }
