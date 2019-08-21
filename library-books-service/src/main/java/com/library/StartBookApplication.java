@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
@@ -42,32 +43,32 @@ public class StartBookApplication {
             accountService.saveRole((new AppRole(null, "USER")));
             accountService.saveRole((new AppRole(null, "ADMIN")));
 
-            Stream.of("user1", "user2", "user3", "admin").forEach(un->{
+            Stream.of("alcaraz.jeremie@hotmail.fr", "alvin.mysterio@gmail.com", "user3@gmail.com", "admin@gmail.com").forEach(un->{
                 accountService.saveUser(un, "1234", "1234");
             });
-            accountService.addRoleToUser("admin", "ADMIN");
+            accountService.addRoleToUser("admin@gmail.com", "ADMIN");
 
 
             bookSvc.save(new Book(
                     1L, "A Guide to the Bodhisattva Way of Life", "Santideva", 12.99,
                     "Aventure", false,
                     null, null, null,
-                    accountService.loadUserByUsername("user1")));
+                    accountService.loadUserByUsername("alcaraz.jeremie@hotmail.fr")));
             bookSvc.save(new Book(2L, "Titanic", "Caprio", 8.99,
                     "Drama", true,
                     null, "unknow.png", null,
-                    accountService.loadUserByUsername("user1")));
+                    accountService.loadUserByUsername("alcaraz.jeremie@hotmail.fr")));
             bookSvc.save(new Book(3L, "Titanic", "Rose", 4.99,
                     "Drama", true,
                     null, "unknow.png",
-                            LocalDateTime.of(2019, 9, 25,0, 0),
-                    accountService.loadUserByUsername("user2")));
+                    LocalDate.of(2019, 8, 6),
+                    accountService.loadUserByUsername("alcaraz.jeremie@hotmail.fr")));
 
             bookSvc.save(new Book(
                     4L, "A Guide to the Bodhisattva Way of Life", "Santideva", 12.99,
                     "Aventure", false,
-                    null, null, LocalDateTime.now(),
-                    accountService.loadUserByUsername("user1")));
+                    null, null, LocalDate.now(),
+                    accountService.loadUserByUsername("alvin.mysterio@gmail.com")));
 
         };
 

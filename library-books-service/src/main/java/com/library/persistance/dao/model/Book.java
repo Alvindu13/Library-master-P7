@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -39,7 +40,7 @@ public class Book {
     private Date borrowDate;*/
 
     @Nullable
-    private LocalDateTime borrowDate;
+    private LocalDate borrowDate;
 
     //@JsonIgnore
     @ManyToOne

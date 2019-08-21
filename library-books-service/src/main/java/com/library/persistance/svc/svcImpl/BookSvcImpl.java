@@ -30,15 +30,15 @@ public class BookSvcImpl implements BookSvc {
 
         book.setAvailable(false);
         book.setBorrower(appUser);
-        book.setBorrowDate(LocalDateTime.now());
+        book.setBorrowDate(LocalDate.now());
         repo.save(book);
     }
 
 
     public void extend(Book book) {
 
-        LocalDateTime ldt = book.getBorrowDate();
-        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDate ldt = book.getBorrowDate();
+        LocalDate currentTime = LocalDate.now();
 
         System.out.println(book.toString());
 

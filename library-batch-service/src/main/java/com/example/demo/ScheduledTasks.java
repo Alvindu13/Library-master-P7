@@ -1,61 +1,72 @@
 package com.example.demo;
 
+import com.example.demo.model.Book;
 import lombok.var;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 @Component
 public class ScheduledTasks {
+
     private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+    @Autowired
+    private EmailService emailService;
+
+    //Lance la méthode tous les jours à 9h30
+    //@Scheduled(cron = "0 * * * * ?")
+    @Scheduled(cron = "0 30 9,14 * * ?")
+    public void batchScheduled() {
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<List<Book>> response = restTemplate.exchange(
+                "http://localhost:9005/books",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Book>>(){});
+        System.out.println("scheduled work : " + response.getBody());
+
+        List<Book> books = response.getBody();
 
 
-    private JavaMailSender javaMailSender;
+        if (books != null) {
+            books.forEach(book -> {
+                System.out.println("actually book : " + book.toString());
+                if (book.getBorrowDate() != null) {
 
-    public ScheduledTasks(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
-    }
+                    LocalDate dateStartEmail = book.getBorrowDate().plus(3, ChronoUnit.WEEKS);
+                    //LocalDate dateLimit = book.getBorrowDate().plus(4, ChronoUnit.WEEKS);
+                    LocalDate currentDate = LocalDate.now();
 
-    @Scheduled(fixedRate = 2000)
-    public void scheduleTaskWithFixedRate() {
-        logger.info("Fixed Rate Task :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()) );
-    }
+                    /*System.out.println("Livre : " + book.getId());
+                    System.out.println("Date de réservation : " + book.getBorrowDate());
+                    System.out.println("Date de lancement des mails : " + dateStartEmail);
+                    System.out.println("Date limite pour restituer le livre : " + dateLimit);
+                    System.out.println("Date actuelle : " + currentDate);
+                    System.out.println("Période : " + ChronoUnit.DAYS.between(currentDate, dateStartEmail));*/
+                    /*System.out.println(dateStartEmail.isEqual(currentDate));
+                    System.out.println(currentDate.isAfter(dateStartEmail));*/
 
-    @Scheduled(fixedDelay = 2000)
-    public void scheduleTaskWithFixedDelay() {
-        logger.info("Fixed Delay Task :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
-        try {
-            TimeUnit.SECONDS.sleep(5);
-        } catch (InterruptedException ex) {
-            logger.error("Ran into an error {}", ex);
-            throw new IllegalStateException(ex);
+                    if((ChronoUnit.DAYS.between(currentDate, dateStartEmail) <= 7 && ChronoUnit.DAYS.between(currentDate, dateStartEmail) >= 0)){
+                        this.emailService.sendEmail(book);
+                    }
+
+                }
+
+            });
         }
+
     }
 
-    @Scheduled(fixedRate = 2000, initialDelay = 5000)
-    public void scheduleTaskWithInitialDelay() {
-        logger.info("Fixed Rate Task with Initial Delay :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
-    }
-
-    //Lance la méthode tous les jours à 8h
-    @Scheduled(cron = "0 * * * * ?")
-    public void scheduleTaskWithCronExpression() {
-        logger.info("Cron Task :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
-        var mailMessage = new SimpleMailMessage();
-
-        mailMessage.setTo("alcaraz.jeremie@hotmail.fr");
-        mailMessage.setSubject("test");
-        mailMessage.setText("test");
-
-        //mailMessage.setFrom("johndoe@example.com");
-
-        javaMailSender.send(mailMessage);
-    }
 }
