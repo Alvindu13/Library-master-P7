@@ -3,6 +3,7 @@ package com.example.demo;
 import lombok.var;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +15,7 @@ public class EmailService {
         this.javaMailSender = javaMailSender;
     }
 
+    //@Scheduled(cron = "0 * * * * ?")
     public void sendMail(String toEmail, String subject, String message) {
 
         var mailMessage = new SimpleMailMessage();

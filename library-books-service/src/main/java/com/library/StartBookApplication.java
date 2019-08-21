@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 @SpringBootApplication
@@ -58,13 +59,14 @@ public class StartBookApplication {
                     accountService.loadUserByUsername("user1")));
             bookSvc.save(new Book(3L, "Titanic", "Rose", 4.99,
                     "Drama", true,
-                    null, "unknow.png", null,
+                    null, "unknow.png",
+                            LocalDateTime.of(2019, 9, 25,0, 0),
                     accountService.loadUserByUsername("user2")));
 
             bookSvc.save(new Book(
                     4L, "A Guide to the Bodhisattva Way of Life", "Santideva", 12.99,
                     "Aventure", false,
-                    null, null, null,
+                    null, null, LocalDateTime.now(),
                     accountService.loadUserByUsername("user1")));
 
         };

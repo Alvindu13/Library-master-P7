@@ -44,6 +44,11 @@ public class BookController {
         return repository.findAllByNameContains(keyword);
     }
 
+    @GetMapping
+    List<Book> getAllBooks() {
+        return repository.findAll();
+    }
+
 
     /**
      * Renvoie les livres réservés par l'utilisateur connecté
