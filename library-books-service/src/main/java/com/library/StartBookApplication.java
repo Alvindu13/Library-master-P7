@@ -5,7 +5,6 @@ import com.library.persistance.dao.model.AppUser;
 import com.library.persistance.dao.model.Book;
 import com.library.persistance.dao.repository.BookRepository;
 import com.library.security.AccountService;
-import com.library.web.controller.UserController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,12 +12,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 @SpringBootApplication
+@EnableSwagger2
 public class StartBookApplication {
 
 
