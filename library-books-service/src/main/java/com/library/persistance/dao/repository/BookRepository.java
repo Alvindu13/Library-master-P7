@@ -15,6 +15,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     //@RestResource(path = "/borrowerId")
     List<Book> findAllByBorrowerId(Long borrowerId);
 
+    List<Book> findAllByBorrowerUsername(String username);
+
 
     List<Book> findAllByNameContains(@Param("keyword") String keyword);
 
@@ -22,6 +24,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Book findBookById(Long bookId);
 
     long countByName(String title);
+
 
     //List<Book> findAllByBo
 

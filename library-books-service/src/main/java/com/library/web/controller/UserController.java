@@ -2,13 +2,18 @@ package com.library.web.controller;
 
 
 import com.library.persistance.dao.model.AppUser;
-import com.library.persistance.dao.model.Book;
 import com.library.persistance.dao.repository.AppUserRepository;
 import com.library.security.AccountService;
+import com.library.security.jwt.DecodeToken;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -29,8 +34,16 @@ public class UserController {
                 userForm.getUsername(), userForm.getPassword(), userForm.getConfirmedPassword());
     }
 
-    @GetMapping("/selected/{username}")
-    AppUser findAllByKeyword(@PathVariable("username") String username) {
+    @GetMapping()
+    List<AppUser> findAllUsers() {
+        return repository.findAll();
+    }
+
+
+    @GetMapping("/selected/")
+    AppUser findUserByUsername(HttpServletRequest request) {
+        DecodeToken decodeToken = new DecodeToken();
+        String username = decodeToken.decodeUsername(request);
         return repository.findByUsername(username);
     }
 

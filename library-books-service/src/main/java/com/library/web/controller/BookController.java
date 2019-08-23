@@ -1,20 +1,36 @@
 package com.library.web.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.library.persistance.dao.model.AppUser;
 import com.library.persistance.dao.model.Book;
+import com.library.persistance.dao.repository.AppUserRepository;
 import com.library.persistance.dao.repository.BookRepository;
 import com.library.persistance.svc.contracts.BookSvc;
 import com.library.security.AccountService;
+import com.library.security.jwt.DecodeToken;
+import com.library.security.jwt.SecurityParams;
 import com.library.web.exceptions.BookNotFoundException;
 import com.library.web.exceptions.BookUnSupportedFieldPatchException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.crypto.Data;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -27,14 +43,21 @@ import java.util.concurrent.atomic.AtomicLong;
 @RequestMapping("/books")
 public class BookController {
 
+    Logger logger = LoggerFactory.getLogger(BookController.class);
+
+
     @Autowired
     private BookRepository repository;
 
+
+    @Autowired
+    private AppUserRepository appUserRepository;
     @Autowired
     private BookSvc svc;
 
     @Autowired
     private AccountService svcUser;
+
 
     /**
      * Renvoie des livres qui contiennent le paramètre dans leur nom.
@@ -60,19 +83,26 @@ public class BookController {
 
     /**
      * Renvoie les livres réservés par l'utilisateur connecté
-     * @param borrowerId
+     * //@param borrowerId
      * @return
      */
-    @GetMapping("/user/{borrowerId}")
-    List<Book> findAllByBorrowerId(@PathVariable("borrowerId") Long borrowerId) {
-        return repository.findAllByBorrowerId(borrowerId);
+    @GetMapping("/user")
+    List<Book> findAllByBorrowerId(HttpServletRequest request) {
+
+       DecodeToken decodeToken = new DecodeToken();
+       String username = decodeToken.decodeUsername(request);
+
+        System.out.println("username ****************** : " + username);
+
+        return repository.findAllByBorrowerUsername(username);
     }
 
 
-    @PatchMapping("/{username}/reserve/{bookId}")
-    void reserveBook(@PathVariable("username") String username, @PathVariable("bookId") Long bookId) {
-        AppUser currentUser = svcUser.loadUserByUsername(username);
-        svc.reserve(repository.findBookById(bookId), currentUser);
+    @PatchMapping("/{bookId}/reserve")
+    void reserveBook(@PathVariable("bookId") Long bookId, HttpServletRequest request) {
+        DecodeToken decodeToken = new DecodeToken();
+        String username = decodeToken.decodeUsername(request);
+        svc.reserve(repository.findBookById(bookId), username);
     }
 
 

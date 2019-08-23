@@ -52,23 +52,23 @@ public class StartBookApplication {
             bookSvc.save(new Book(
                     1L, "A Guide to the Bodhisattva Way of Life", "Santideva", 12.99,
                     "Aventure", false,
-                    null, null, null,
+                    false, null, LocalDate.now(),
                     accountService.loadUserByUsername("alcaraz.jeremie@hotmail.fr")));
             bookSvc.save(new Book(2L, "Titanic", "Rose", 4.99,
                     "Drama", true,
-                    null, "unknow.png",
+                    false, "unknow.png",
                     LocalDate.of(2019, 8, 17),
                     accountService.loadUserByUsername("alcaraz.jeremie@hotmail.fr")));
             bookSvc.save(new Book(3L, "Titanic", "Rose", 4.99,
                     "Drama", true,
-                    null, "unknow.png",
+                    false, "unknow.png",
                     LocalDate.of(2019, 8, 6),
                     accountService.loadUserByUsername("alcaraz.jeremie@hotmail.fr")));
 
             bookSvc.save(new Book(
                     4L, "A Guide to the Bodhisattva Way of Life", "Santideva", 12.99,
                     "Aventure", false,
-                    null, null, LocalDate.now(),
+                    false, null, LocalDate.now(),
                     accountService.loadUserByUsername("alvin.mysterio@gmail.com")));
 
         };

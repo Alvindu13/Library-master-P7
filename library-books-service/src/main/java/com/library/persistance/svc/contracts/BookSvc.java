@@ -10,7 +10,7 @@ public interface BookSvc {
     List<Book> findAllByGenre(String genre);
     //List<Book> findAllByBorrower(Long borrowerId);
 
-    public void reserve(Book book, AppUser appUser);
+    public void reserve(Book book, String username);
 
     public void extend(Book book);
 

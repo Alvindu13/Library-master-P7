@@ -5,6 +5,7 @@ import lombok.var;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -19,19 +20,21 @@ import java.util.List;
 @Component
 public class ScheduledTasks {
 
-    private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
+    @Value("${library.api.url}")
+    private String apiUrl;
+
 
     @Autowired
     private EmailService emailService;
 
     //Lance la méthode tous les jours à 9h30
     //@Scheduled(cron = "0 * * * * ?")
-    @Scheduled(cron = "0 00 11 ? * MON-FRI")
+    @Scheduled(cron = "0 0 0 11 ? * MON-FRI")
     public void batchScheduled() {
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<List<Book>> response = restTemplate.exchange(
-                "http://localhost:9005/books",
+                apiUrl + "/books",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Book>>(){});
