@@ -3,14 +3,11 @@ package com.library.web.controller;
 
 import com.library.persistance.dao.model.AppUser;
 import com.library.persistance.dao.repository.AppUserRepository;
+import com.library.persistance.svc.contracts.AppUserSvc;
 import com.library.security.AccountService;
 import com.library.security.jwt.DecodeToken;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,27 +21,39 @@ public class UserController {
     private AccountService accountService;
 
     @Autowired
-    private AppUserRepository repository;
+    private AppUserSvc appUserSvc;
 
 
-
+    /**
+     *
+     * @param userForm
+     * @return
+     */
     @PostMapping("/register")
     public AppUser register(@RequestBody UserForm userForm){
         return accountService.saveUser(
                 userForm.getUsername(), userForm.getPassword(), userForm.getConfirmedPassword());
     }
 
+    /**
+     *
+     * @return
+     */
     @GetMapping()
     List<AppUser> findAllUsers() {
-        return repository.findAll();
+        return appUserSvc.findAllUsers();
     }
 
-
+    /**
+     *
+     * @param request
+     * @return
+     */
     @GetMapping("/selected/")
     AppUser findUserByUsername(HttpServletRequest request) {
         DecodeToken decodeToken = new DecodeToken();
         String username = decodeToken.decodeUsername(request);
-        return repository.findByUsername(username);
+        return appUserSvc.findByUsername(username);
     }
 
 }

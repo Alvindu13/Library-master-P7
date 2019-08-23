@@ -7,13 +7,18 @@ import java.util.List;
 
 public interface BookSvc {
 
-    List<Book> findAllByGenre(String genre);
-    //List<Book> findAllByBorrower(Long borrowerId);
 
-    public void reserve(Book book, String username);
+    void reserve(Book book, String username);
 
-    public void extend(Book book);
+    void extend(Book book);
 
+    List<Book> findAllByNameContains(String keyword);
 
+    List<Book> findAllBooks();
 
+    Long countByName(String name);
+
+    List<Book> findAllByBorrowerUsername(String username);
+
+    Book findBookById(Long bookId);
 }

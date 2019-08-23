@@ -29,52 +29,98 @@ public class BookSvcImpl implements BookSvc {
      * The Repo.
      */
     @Autowired
-    BookRepository repo;
+    BookRepository bookRepository;
 
+    /**
+     * The App user repository.
+     */
     @Autowired
-    AppUserRepository appRepo;
-
-    @Override
-    public List<Book> findAllByGenre(String genre) {
-        return null;
-    }
+    AppUserRepository appUserRepository;
 
 
-    public void reserve(Book book,  String username) {
+    /**
+     * This method enable to reserve a book
+     * @param book selected book
+     * @param username of user connected
+     */
+    public void reserve(Book book, String username) {
 
         book.setAvailable(false);
-        book.setBorrower(appRepo.findByUsername(username));
+        book.setBorrower(appUserRepository.findByUsername(username));
         book.setBorrowDate(LocalDate.now());
-        repo.save(book);
+        bookRepository.save(book);
     }
 
 
+    /**
+     * Enable to extend one reservation of 4 weeks
+     * @param book book selected to extend it reservation
+     */
     public void extend(Book book) {
 
         LocalDate ldt = book.getBorrowDate();
-        //LocalDate currentTime = LocalDate.now();
-
-        System.out.println(book.toString());
-
-        System.out.println(book.getBorrowDate());
-
-
 
         // ajoute 4 semaines de délai à la réservation si l'indicateur de prolongation est sur false et si
         Objects.requireNonNull(book.getIsProlongation(), "Le paramètre prolongation est nulle dans la db");
-        if(!book.getIsProlongation()) {
+        if (!book.getIsProlongation()) {
             book.setBorrowDate(ldt != null ? ldt.plus(4, ChronoUnit.WEEKS) : null);
             book.setIsProlongation(true);
-            repo.save(book);
-        }
-        else{
+            bookRepository.save(book);
+        } else {
             logger.info("La réservation a déjà été prolongée");
 
         }
     }
 
-    /*@Override
-    public List<Book> findAllByBorrower(Long borrowerId) {
-        return repo.findAllByBorrowerId(borrowerId);
-    }*/
+    /**
+     * Search by keyword
+     * @param keyword
+     * @return
+     */
+    @Override
+    public List<Book> findAllByNameContains(String keyword) {
+        return bookRepository.findAllByNameContains(keyword);
+    }
+
+    /**
+     * Find all books of db
+     * @return
+     */
+    @Override
+    public List<Book> findAllBooks() {
+        return bookRepository.findAll();
+    }
+
+    /**
+     * Count books in db
+     * @param name
+     * @return
+     */
+    @Override
+    public Long countByName(String name) {
+        return bookRepository.countByName(name);
+    }
+
+    /**
+     * Find books by parameters
+     * @param username of user connected
+     * @return
+     */
+    @Override
+    public List<Book> findAllByBorrowerUsername(String username) {
+        return bookRepository.findAllByBorrowerUsername(username);
+    }
+
+    /**
+     * Find book by book_id
+     * @param bookId
+     * @return
+     */
+    @Override
+    public Book findBookById(Long bookId) {
+        return bookRepository.findBookById(bookId);
+    }
+
 }
+
+

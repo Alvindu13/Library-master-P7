@@ -12,21 +12,13 @@ import java.util.List;
 @RepositoryRestResource
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    //@RestResource(path = "/borrowerId")
-    List<Book> findAllByBorrowerId(Long borrowerId);
-
     List<Book> findAllByBorrowerUsername(String username);
 
-
     List<Book> findAllByNameContains(@Param("keyword") String keyword);
-
 
     Book findBookById(Long bookId);
 
     long countByName(String title);
-
-
-    //List<Book> findAllByBo
 
 
 }

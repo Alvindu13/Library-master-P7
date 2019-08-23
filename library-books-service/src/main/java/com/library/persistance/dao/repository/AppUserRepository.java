@@ -12,6 +12,4 @@ import java.util.List;
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
 
     AppUser findByUsername(@Param("username") String username);
-
-    List<Book> findAllByUsername(String username);
 }
