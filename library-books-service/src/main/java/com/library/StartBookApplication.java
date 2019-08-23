@@ -54,9 +54,10 @@ public class StartBookApplication {
                     "Aventure", false,
                     null, null, null,
                     accountService.loadUserByUsername("alcaraz.jeremie@hotmail.fr")));
-            bookSvc.save(new Book(2L, "Titanic", "Caprio", 8.99,
+            bookSvc.save(new Book(2L, "Titanic", "Rose", 4.99,
                     "Drama", true,
-                    null, "unknow.png", null,
+                    null, "unknow.png",
+                    LocalDate.of(2019, 8, 17),
                     accountService.loadUserByUsername("alcaraz.jeremie@hotmail.fr")));
             bookSvc.save(new Book(3L, "Titanic", "Rose", 4.99,
                     "Drama", true,

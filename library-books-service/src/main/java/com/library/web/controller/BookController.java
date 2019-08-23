@@ -8,6 +8,7 @@ import com.library.security.AccountService;
 import com.library.web.exceptions.BookNotFoundException;
 import com.library.web.exceptions.BookUnSupportedFieldPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+
 
 @RestController
 @RequestMapping("/books")
@@ -49,6 +51,12 @@ public class BookController {
         return repository.findAll();
     }
 
+    @GetMapping("/count/{name}")
+    Long count(@PathVariable("name") String name) {
+        System.out.println(name);
+        return repository.countByName(name);
+    }
+    
 
     /**
      * Renvoie les livres réservés par l'utilisateur connecté

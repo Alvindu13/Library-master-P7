@@ -26,7 +26,7 @@ public class ScheduledTasks {
 
     //Lance la méthode tous les jours à 9h30
     //@Scheduled(cron = "0 * * * * ?")
-    @Scheduled(cron = "0 30 9,14 * * ?")
+    @Scheduled(cron = "0 00 11 ? * MON-FRI")
     public void batchScheduled() {
 
         RestTemplate restTemplate = new RestTemplate();

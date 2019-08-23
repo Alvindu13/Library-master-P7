@@ -21,6 +21,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Book findBookById(Long bookId);
 
+    long countByName(String title);
 
     //List<Book> findAllByBo
 
