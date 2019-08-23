@@ -27,7 +27,6 @@ public class ScheduledTasks {
     @Autowired
     private EmailService emailService;
 
-    //Lance la méthode tous les jours à 9h30
     //@Scheduled(cron = "0 * * * * ?")
     @Scheduled(cron = "0 0 0 11 ? * MON-FRI")
     public void batchScheduled() {
@@ -42,25 +41,12 @@ public class ScheduledTasks {
 
         List<Book> books = response.getBody();
 
-
         if (books != null) {
             books.forEach(book -> {
                 System.out.println("actually book : " + book.toString());
                 if (book.getBorrowDate() != null) {
-
                     LocalDate dateStartEmail = book.getBorrowDate().plus(3, ChronoUnit.WEEKS);
-                    //LocalDate dateLimit = book.getBorrowDate().plus(4, ChronoUnit.WEEKS);
                     LocalDate currentDate = LocalDate.now();
-
-                    /*System.out.println("Livre : " + book.getId());
-                    System.out.println("Date de réservation : " + book.getBorrowDate());
-                    System.out.println("Date de lancement des mails : " + dateStartEmail);
-                    System.out.println("Date limite pour restituer le livre : " + dateLimit);
-                    System.out.println("Date actuelle : " + currentDate);
-                    System.out.println("Période : " + ChronoUnit.DAYS.between(currentDate, dateStartEmail));*/
-                    /*System.out.println(dateStartEmail.isEqual(currentDate));
-                    System.out.println(currentDate.isAfter(dateStartEmail));*/
-
                     if((ChronoUnit.DAYS.between(currentDate, dateStartEmail) <= 7 && ChronoUnit.DAYS.between(currentDate, dateStartEmail) >= 0)){
                         this.emailService.sendEmail(book);
                     }

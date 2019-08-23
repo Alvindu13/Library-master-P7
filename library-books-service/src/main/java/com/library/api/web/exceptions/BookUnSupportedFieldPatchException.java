@@ -1,0 +1,11 @@
+package com.library.api.web.exceptions;
+
+import java.util.Set;
+
+public class BookUnSupportedFieldPatchException extends RuntimeException {
+
+    public BookUnSupportedFieldPatchException(Set<String> keys) {
+        super("Field " + keys.toString() + " update is not allow.");
+    }
+
+}

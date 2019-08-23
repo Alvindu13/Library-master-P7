@@ -1,0 +1,86 @@
+package com.library.api;
+
+import com.library.api.persistance.dao.model.AppRole;
+import com.library.api.persistance.dao.model.AppUser;
+import com.library.api.persistance.dao.repository.BookRepository;
+import com.library.api.security.AccountService;
+import com.library.api.persistance.dao.model.Book;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.time.LocalDate;
+import java.util.stream.Stream;
+
+@SpringBootApplication
+@EnableSwagger2
+//@Import({springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration.class})
+public class StartBookApplication {
+
+
+    @Autowired
+    private RepositoryRestConfiguration restConfiguration;
+
+    // start everything
+    public static void main(String[] args) {
+        SpringApplication.run(StartBookApplication.class, args);
+    }
+
+
+    @Bean
+    CommandLineRunner start(AccountService accountService, BookRepository bookSvc){
+
+        restConfiguration.exposeIdsFor(AppUser.class);
+        restConfiguration.exposeIdsFor(AppRole.class);
+        restConfiguration.exposeIdsFor(Book.class);
+
+
+        return args -> {
+            accountService.saveRole((new AppRole(null, "USER")));
+            accountService.saveRole((new AppRole(null, "ADMIN")));
+
+            Stream.of("alcaraz.jeremie@hotmail.fr", "alvin.mysterio@gmail.com", "user3@gmail.com", "admin@gmail.com").forEach(un->{
+                accountService.saveUser(un, "1234", "1234");
+            });
+            accountService.addRoleToUser("admin@gmail.com", "ADMIN");
+
+
+            bookSvc.save(new Book(
+                    1L, "A Guide to the Bodhisattva Way of Life", "Santideva", 12.99,
+                    "Aventure", false,
+                    false, null, LocalDate.now(),
+                    accountService.loadUserByUsername("alcaraz.jeremie@hotmail.fr")));
+            bookSvc.save(new Book(2L, "Titanic", "Rose", 4.99,
+                    "Drama", true,
+                    false, "unknow.png",
+                    LocalDate.of(2019, 8, 17),
+                    accountService.loadUserByUsername("alcaraz.jeremie@hotmail.fr")));
+            bookSvc.save(new Book(3L, "Titanic", "Rose", 4.99,
+                    "Drama", true,
+                    false, "unknow.png",
+                    LocalDate.of(2019, 8, 6),
+                    accountService.loadUserByUsername("alcaraz.jeremie@hotmail.fr")));
+
+            bookSvc.save(new Book(
+                    4L, "A Guide to the Bodhisattva Way of Life", "Santideva", 12.99,
+                    "Aventure", false,
+                    false, null, LocalDate.now(),
+                    accountService.loadUserByUsername("alvin.mysterio@gmail.com")));
+
+        };
+
+
+    }
+
+    @Bean
+    BCryptPasswordEncoder getBCPE(){
+        return new BCryptPasswordEncoder();
+    }
+}
