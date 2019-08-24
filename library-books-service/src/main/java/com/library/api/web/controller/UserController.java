@@ -36,7 +36,6 @@ public class UserController {
     @Autowired
     private AppUserSvc appUserSvc;
 
-
     /**
      * Register app user.
      *
@@ -74,7 +73,6 @@ public class UserController {
         String username = decodeToken.decodeUsername(request);
         return appUserSvc.findByUsername(username);
     }
-
 }
 
 /**

@@ -94,7 +94,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     }
 
-    //Si l'authentification echec
+    //failed authentication
     /*@Override
     protected AuthenticationFailureHandler getFailureHandler() {
         return super.getFailureHandler();

@@ -18,10 +18,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.time.LocalDate;
@@ -48,7 +46,6 @@ public class StartBookApplication {
         restConfiguration.exposeIdsFor(AppUser.class);
         restConfiguration.exposeIdsFor(AppRole.class);
         restConfiguration.exposeIdsFor(Book.class);
-
 
         return args -> {
             accountService.saveRole((new AppRole(null, "USER")));
@@ -83,8 +80,6 @@ public class StartBookApplication {
                     accountService.loadUserByUsername("alvin.mysterio@gmail.com")));
 
         };
-
-
     }
 
     @Bean

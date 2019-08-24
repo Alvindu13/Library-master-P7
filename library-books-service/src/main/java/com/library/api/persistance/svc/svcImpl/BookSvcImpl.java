@@ -46,7 +46,8 @@ public class BookSvcImpl implements BookSvc {
 
     /**
      * This method enable to reserve a book
-     * @param book selected book
+     *
+     * @param book     selected book
      * @param username of user connected
      */
     public void reserve(Book book, String username) {
@@ -60,6 +61,7 @@ public class BookSvcImpl implements BookSvc {
 
     /**
      * Enable to extend one reservation of 4 weeks
+     *
      * @param book book selected to extend it reservation
      */
     public void extend(Book book) {
@@ -80,6 +82,7 @@ public class BookSvcImpl implements BookSvc {
 
     /**
      * Search by keyword
+     *
      * @param keyword
      * @return
      */
@@ -90,6 +93,7 @@ public class BookSvcImpl implements BookSvc {
 
     /**
      * Find all books of db
+     *
      * @return
      */
     @Override
@@ -99,6 +103,7 @@ public class BookSvcImpl implements BookSvc {
 
     /**
      * Count books in db
+     *
      * @param name
      * @return
      */
@@ -109,6 +114,7 @@ public class BookSvcImpl implements BookSvc {
 
     /**
      * Find books by parameters
+     *
      * @param username of user connected
      * @return
      */
@@ -119,6 +125,7 @@ public class BookSvcImpl implements BookSvc {
 
     /**
      * Find book by book_id
+     *
      * @param bookId
      * @return
      */
