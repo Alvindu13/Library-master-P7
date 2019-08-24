@@ -8,6 +8,7 @@
 
 package com.library.api.web.controller;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.library.api.persistance.svc.contracts.BookSvc;
 import com.library.api.persistance.dao.model.Book;
 import com.library.api.security.jwt.DecodeToken;
@@ -66,7 +67,8 @@ public class BookController {
     @PostMapping
     void saveBook(@RequestBody Book newBook, HttpServletRequest request) {
         DecodeToken decodeToken = new DecodeToken(jwtProperties);
-        String username = decodeToken.decodeUsername(request);
+        DecodedJWT decodedJWT = decodeToken.decodeJWT(request);
+        String username =decodedJWT.getSubject();
         bookSvc.save(newBook, username); }
 
     /**
@@ -88,8 +90,9 @@ public class BookController {
     @ApiOperation(value = "Find all books by borrower")
     @GetMapping("/user")
     List<Book> findAllByBorrower(HttpServletRequest request) {
-       DecodeToken decodeToken = new DecodeToken(jwtProperties);
-       String username = decodeToken.decodeUsername(request);
+        DecodeToken decodeToken = new DecodeToken(jwtProperties);
+        DecodedJWT decodedJWT = decodeToken.decodeJWT(request);
+        String username =decodedJWT.getSubject();
        return bookSvc.findAllByBorrowerUsername(username);
     }
 
@@ -103,7 +106,8 @@ public class BookController {
     @PatchMapping("/{bookId}/reserve")
     void reserveBook(@PathVariable("bookId") Long bookId, HttpServletRequest request) {
         DecodeToken decodeToken = new DecodeToken(jwtProperties);
-        String username = decodeToken.decodeUsername(request);
+        DecodedJWT decodedJWT = decodeToken.decodeJWT(request);
+        String username =decodedJWT.getSubject();
         bookSvc.reserve(bookSvc.findBookById(bookId), username);
     }
 

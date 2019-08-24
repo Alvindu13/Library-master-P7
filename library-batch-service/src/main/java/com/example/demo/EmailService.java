@@ -19,19 +19,31 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * The type Email service.
+ */
 @Service
 public class EmailService {
 
     private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
     private JavaMailSender javaMailSender;
 
 
+    /**
+     * Instantiates a new Email service.
+     *
+     * @param javaMailSender the java mail sender
+     */
     public EmailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
 
+    /**
+     * Send email.
+     *
+     * @param book the book
+     */
     public void sendEmail(Book book) {
         logger.info("Cron Task :: Execution Time - {}", dateTimeFormatter.format(LocalDateTime.now()));
         var mailMessage = new SimpleMailMessage();

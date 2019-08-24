@@ -14,9 +14,10 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-
+/**
+ * The type Book.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,18 +27,11 @@ public class Book implements Serializable {
     private String name;
     private String author;
     private Double price;
-
     private String genre;
-
-
     private Boolean available;
-
     private Boolean isProlongation;
-
     private String photoName;
-
     private LocalDate borrowDate;
-
     private AppUser borrower;
 
     @Override

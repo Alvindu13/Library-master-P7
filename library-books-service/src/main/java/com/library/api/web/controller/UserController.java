@@ -9,6 +9,7 @@
 package com.library.api.web.controller;
 
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.library.api.persistance.dao.model.AppUser;
 import com.library.api.persistance.svc.contracts.AppUserSvc;
 import com.library.api.security.AccountService;
@@ -74,7 +75,8 @@ public class UserController {
     @GetMapping("/selected/")
     AppUser findUserByUsername(HttpServletRequest request) {
         DecodeToken decodeToken = new DecodeToken(jwtProperties);
-        String username = decodeToken.decodeUsername(request);
+        DecodedJWT decodedJWT = decodeToken.decodeJWT(request);
+        String username =decodedJWT.getSubject();
         return appUserSvc.findByUsername(username);
     }
 }

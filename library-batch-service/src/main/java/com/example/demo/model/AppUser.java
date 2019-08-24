@@ -19,21 +19,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 
+/**
+ * The type App user.
+ */
 @Data @NoArgsConstructor @AllArgsConstructor @ToString
 public class AppUser {
 
-
     private Long id;
-
     private String username;
-
-
     private String password;
-
     private boolean actived;
 
-    private Collection<AppRole> roles = new ArrayList<>();
 
-    /*@OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
-    private Set<Book> books;*/
 }

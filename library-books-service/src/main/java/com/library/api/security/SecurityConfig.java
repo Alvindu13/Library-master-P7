@@ -63,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //http.authorizeRequests().antMatchers("/appUsers/**", "/appRoles/**").hasAuthority("ADMIN");
         http.authorizeRequests().antMatchers("/login/**", "/register/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/books/**").authenticated();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/books/user").authenticated();
         //http.authorizeRequests().antMatchers("/books/**").hasAuthority("ADMIN");
         //http.authorizeRequests().anyRequest().authenticated();
         http.authorizeRequests().anyRequest().permitAll(); // a delete après test

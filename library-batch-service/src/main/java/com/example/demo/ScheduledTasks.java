@@ -9,15 +9,11 @@
 package com.example.demo;
 
 import com.example.demo.model.Book;
-import lombok.var;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -25,16 +21,22 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+
+/**
+ * The type Scheduled tasks.
+ */
 @Component
 public class ScheduledTasks {
 
     @Value("${library.api.url}")
     private String apiUrl;
 
-
     @Autowired
     private EmailService emailService;
 
+    /**
+     * Batch scheduled.
+     */
     //@Scheduled(cron = "0 * * * * ?")
     @Scheduled(cron = "0 0 0 11 ? * MON-FRI")
     public void batchScheduled() {
@@ -58,12 +60,9 @@ public class ScheduledTasks {
                     if((ChronoUnit.DAYS.between(currentDate, dateStartEmail) <= 7 && ChronoUnit.DAYS.between(currentDate, dateStartEmail) >= 0)){
                         this.emailService.sendEmail(book);
                     }
-
                 }
-
             });
         }
-
     }
 
 }

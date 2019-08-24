@@ -69,21 +69,21 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
         else{
             String jwtToken = request.getHeader("Authorization");
-            System.out.println("******************* Token = " + jwtToken);
+            //System.out.println("******************* Token = " + jwtToken);
             if(jwtToken == null || !jwtToken.startsWith(SecurityParams.HEADER_PREFIX)){
                 filterChain.doFilter(request, response);
                 return;
 
             }
 
-            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(jwtProperties.getSecret())).build();
-            //String jwt = jwtToken.substring(SecurityParams.HEADER_PREFIX.length());
-            //System.out.println("******************* TOKEN SANS PREFIX = " + jwt);
-            DecodedJWT decodedJWT = verifier.verify(jwtToken.substring(SecurityParams.HEADER_PREFIX.length()));
+            DecodeToken decodeToken = new DecodeToken(jwtProperties);
+            DecodedJWT decodedJWT = decodeToken.decodeJWT(request);
             String username = decodedJWT.getSubject();
             List<String> roles = decodedJWT.getClaims().get("roles").asList(String.class);
-            System.out.println("******************* USERNAME = " + username);
-            System.out.println("******************* ROLES = " + roles);
+
+            //System.out.println("******************* USERNAME = " + username);
+            //System.out.println("******************* ROLES = " + roles);
+
             Collection<GrantedAuthority> authorities = new ArrayList<>();
             roles.forEach(rn ->{
                 authorities.add(new SimpleGrantedAuthority(rn));
