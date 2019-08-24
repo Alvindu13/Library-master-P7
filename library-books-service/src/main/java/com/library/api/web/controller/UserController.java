@@ -74,8 +74,7 @@ public class UserController {
     @ApiOperation(value = "Get one user by username")
     @GetMapping("/selected/")
     AppUser findUserByUsername(HttpServletRequest request) {
-        DecodeToken decodeToken = new DecodeToken(jwtProperties);
-        DecodedJWT decodedJWT = decodeToken.decodeJWT(request);
+        DecodedJWT decodedJWT = DecodeToken.decodeJWT(request, jwtProperties);
         String username =decodedJWT.getSubject();
         return appUserSvc.findByUsername(username);
     }

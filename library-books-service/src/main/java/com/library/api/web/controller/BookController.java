@@ -66,8 +66,7 @@ public class BookController {
     @ApiOperation(value = "Save one book")
     @PostMapping
     void saveBook(@RequestBody Book newBook, HttpServletRequest request) {
-        DecodeToken decodeToken = new DecodeToken(jwtProperties);
-        DecodedJWT decodedJWT = decodeToken.decodeJWT(request);
+        DecodedJWT decodedJWT = DecodeToken.decodeJWT(request, jwtProperties);
         String username =decodedJWT.getSubject();
         bookSvc.save(newBook, username); }
 
@@ -90,8 +89,7 @@ public class BookController {
     @ApiOperation(value = "Find all books by borrower")
     @GetMapping("/user")
     List<Book> findAllByBorrower(HttpServletRequest request) {
-        DecodeToken decodeToken = new DecodeToken(jwtProperties);
-        DecodedJWT decodedJWT = decodeToken.decodeJWT(request);
+        DecodedJWT decodedJWT = DecodeToken.decodeJWT(request, jwtProperties);
         String username =decodedJWT.getSubject();
        return bookSvc.findAllByBorrowerUsername(username);
     }
@@ -105,8 +103,7 @@ public class BookController {
     @ApiOperation(value = "User reserve selected book")
     @PatchMapping("/{bookId}/reserve")
     void reserveBook(@PathVariable("bookId") Long bookId, HttpServletRequest request) {
-        DecodeToken decodeToken = new DecodeToken(jwtProperties);
-        DecodedJWT decodedJWT = decodeToken.decodeJWT(request);
+        DecodedJWT decodedJWT = DecodeToken.decodeJWT(request, jwtProperties);
         String username =decodedJWT.getSubject();
         bookSvc.reserve(bookSvc.findBookById(bookId), username);
     }

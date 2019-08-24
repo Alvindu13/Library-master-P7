@@ -76,8 +76,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
             }
 
-            DecodeToken decodeToken = new DecodeToken(jwtProperties);
-            DecodedJWT decodedJWT = decodeToken.decodeJWT(request);
+            DecodedJWT decodedJWT = DecodeToken.decodeJWT(request, jwtProperties);
             String username = decodedJWT.getSubject();
             List<String> roles = decodedJWT.getClaims().get("roles").asList(String.class);
 

@@ -19,37 +19,16 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class DecodeToken {
 
-    JwtProperties jwtProperties;
-
-    public DecodeToken(JwtProperties jwtProperties) {
-        this.jwtProperties = jwtProperties;
-    }
-
-
     /**
      * Decode jwt username.
      *
      * @param request the request
      * @return the username string
      */
-   /* public String decodeUsername(HttpServletRequest request) {
-
+    public static DecodedJWT decodeJWT(HttpServletRequest request, JwtProperties jwtProperties) {
         String jwtToken = request.getHeader("Authorization");
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(jwtProperties.getSecret())).build();
         DecodedJWT decodedJWT = verifier.verify(jwtToken.substring(SecurityParams.HEADER_PREFIX.length()));
-        String username = decodedJWT.getSubject();
-
-        return username;
-    }*/
-
-
-    public DecodedJWT decodeJWT(HttpServletRequest request) {
-
-        String jwtToken = request.getHeader("Authorization");
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(jwtProperties.getSecret())).build();
-        DecodedJWT decodedJWT = verifier.verify(jwtToken.substring(SecurityParams.HEADER_PREFIX.length()));
-        //String username = decodedJWT.getSubject();
-
         return decodedJWT;
     }
 }
