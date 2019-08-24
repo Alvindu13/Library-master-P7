@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.library.api.web.controller;
 
 
@@ -14,7 +22,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@Api( description="API pour des opérations CRUD sur les livres de la bibliothèque.")
+/**
+ * The type User controller.
+ */
+@Api( description="API CRUD's operations to users.")
 @RestController
 @RequestMapping("/appUsers")
 public class UserController {
@@ -27,11 +38,12 @@ public class UserController {
 
 
     /**
+     * Register app user.
      *
-     * @param userForm
-     * @return
+     * @param userForm the user form
+     * @return app user
      */
-    @ApiOperation(value = "Enregistre un nouvel utilisateur")
+    @ApiOperation(value = "Save a new user")
     @PostMapping("/register")
     public AppUser register(@RequestBody UserForm userForm){
         return accountService.saveUser(
@@ -39,21 +51,23 @@ public class UserController {
     }
 
     /**
+     * Find all users list.
      *
-     * @return
+     * @return list
      */
-    @ApiOperation(value = "Récupère tous les utilisateurs enregistrés")
+    @ApiOperation(value = "Gets all users")
     @GetMapping()
     List<AppUser> findAllUsers() {
         return appUserSvc.findAllUsers();
     }
 
     /**
+     * Find user by username app user.
      *
-     * @param request
-     * @return
+     * @param request the request
+     * @return app user
      */
-    @ApiOperation(value = "Récupère un utilisateur par son username")
+    @ApiOperation(value = "Get one user by username")
     @GetMapping("/selected/")
     AppUser findUserByUsername(HttpServletRequest request) {
         DecodeToken decodeToken = new DecodeToken();
@@ -63,6 +77,9 @@ public class UserController {
 
 }
 
+/**
+ * The type User form.
+ */
 @Data
 class UserForm{
     private String username;

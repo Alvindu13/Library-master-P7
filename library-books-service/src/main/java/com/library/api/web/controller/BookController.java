@@ -1,9 +1,15 @@
+/*
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.library.api.web.controller;
 
 import com.library.api.persistance.svc.contracts.BookSvc;
-import com.library.api.security.AccountService;
 import com.library.api.persistance.dao.model.Book;
-import com.library.api.persistance.dao.repository.AppUserRepository;
 import com.library.api.security.jwt.DecodeToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,82 +21,82 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
-@Api( description="API pour des opérations CRUD sur les livres de la bibliothèque.")
+/**
+ * The type Book controller.
+ */
+@Api( description="API CRUD's operations to books.")
 @RestController
 @RequestMapping("/books")
 public class BookController {
 
-
-    @Autowired
-    private AppUserRepository appUserRepository;
-
     @Autowired
     private BookSvc bookSvc;
 
-    @Autowired
-    private AccountService accountService;
-
-
     /**
-     * Renvoie des livres qui contiennent le paramètre dans leur nom.
-     * @param keyword
-     * @return
+     * Find all books by keyword.
+     *
+     * @param keyword the keyword
+     * @return the books list
      */
-    @ApiOperation(value = "Récupère les livres qui correspondent au mot clé")
+    @ApiOperation(value = "Find all books by keyword")
     @GetMapping("/selected/{keyword}")
     List<Book> findAllByKeyword(@PathVariable("keyword") String keyword) {
         return bookSvc.findAllByNameContains(keyword);
     }
 
-    @ApiOperation(value = "Récupère tous les livres")
+    /**
+     * Gets all books.
+     *
+     * @return the books list
+     */
+    @ApiOperation(value = "Gets all books")
     @GetMapping
-    List<Book> getAllBooks() {
-        return bookSvc.findAllBooks();
-    }
-
-    @ApiOperation(value = "Compte les livres selon leur titre")
-    @GetMapping("/count/{name}")
-    Long count(@PathVariable("name") String name) {
-        System.out.println(name);
-        return bookSvc.countByName(name);
-    }
+    List<Book> getAllBooks() { return bookSvc.findAllBooks(); }
 
     /**
-     * Renvoie les livres réservés par l'utilisateur connecté
-     * //@param borrowerId
-     * @return
+     * Count books by name.
+     *
+     * @param name the name
+     * @return the long quantity
      */
-    @ApiOperation(value = "Récupère les livres réservés par l'utilisateur connecté")
-    @GetMapping("/user")
-    List<Book> findAllByBorrowerId(HttpServletRequest request) {
+    @ApiOperation(value = "Count books by title")
+    @GetMapping("/count/{name}")
+    Long count(@PathVariable("name") String name) { return bookSvc.countByName(name); }
 
+    /**
+     * Find all books by borrower.
+     *
+     * @param request the front request with jwt token
+     * @return the books' borrower list
+     */
+    @ApiOperation(value = "Find all books by borrower")
+    @GetMapping("/user")
+    List<Book> findAllByBorrower(HttpServletRequest request) {
        DecodeToken decodeToken = new DecodeToken();
        String username = decodeToken.decodeUsername(request);
-
-        System.out.println("username ****************** : " + username);
-
-        return bookSvc.findAllByBorrowerUsername(username);
+       return bookSvc.findAllByBorrowerUsername(username);
     }
 
     /**
+     * Reserve one book.
      *
-     * @param bookId
-     * @param request
+     * @param bookId  the book id
+     * @param request the front request with jwt token
      */
-    @ApiOperation(value = "L'utilisateur réserve le livre sélectionné")
+    @ApiOperation(value = "User reserve selected book")
     @PatchMapping("/{bookId}/reserve")
     void reserveBook(@PathVariable("bookId") Long bookId, HttpServletRequest request) {
-
         DecodeToken decodeToken = new DecodeToken();
         String username = decodeToken.decodeUsername(request);
         bookSvc.reserve(bookSvc.findBookById(bookId), username);
     }
 
     /**
+     * Reserve extend.
      *
-     * @param bookId
+     * @param bookId the book id
      */
-    @ApiOperation(value = "Permet de prolonger la réserver de 4 semaines. N'est pas possible qu'une foie par réservation")
+    @ApiOperation(value = "User extend book's reservation one time to 4 weeks")
     @PatchMapping("/extend/{bookId}")
     void reserveExtend( @PathVariable("bookId") Long bookId) {
         bookSvc.extend(bookSvc.findBookById(bookId));

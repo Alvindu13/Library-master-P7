@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.library.api.persistance.dao.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,6 +19,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 
+/**
+ * The type App user.
+ */
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor @ToString
 public class AppUser  {
@@ -22,7 +33,6 @@ public class AppUser  {
     @Column(unique = true)
     private String username;
 
-
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
@@ -31,6 +41,4 @@ public class AppUser  {
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<AppRole> roles = new ArrayList<>();
 
-    /*@OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
-    private Set<Book> books;*/
 }

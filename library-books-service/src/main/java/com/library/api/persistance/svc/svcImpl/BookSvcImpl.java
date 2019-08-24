@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.library.api.persistance.svc.svcImpl;
 
 import com.library.api.persistance.svc.contracts.BookSvc;
@@ -58,14 +66,14 @@ public class BookSvcImpl implements BookSvc {
 
         LocalDate ldt = book.getBorrowDate();
 
-        // ajoute 4 semaines de délai à la réservation si l'indicateur de prolongation est sur false et si
-        Objects.requireNonNull(book.getIsProlongation(), "Le paramètre prolongation est nulle dans la db");
+        // add 4 weeks of delay to reservation book
+        Objects.requireNonNull(book.getIsProlongation(), "prolongation parameter is null");
         if (!book.getIsProlongation()) {
             book.setBorrowDate(ldt != null ? ldt.plus(4, ChronoUnit.WEEKS) : null);
             book.setIsProlongation(true);
             bookRepository.save(book);
         } else {
-            logger.info("La réservation a déjà été prolongée");
+            logger.info("reservation has already extend ! ");
 
         }
     }

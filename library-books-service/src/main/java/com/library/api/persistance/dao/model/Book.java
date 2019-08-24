@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.library.api.persistance.dao.model;
 
 import lombok.*;
@@ -7,9 +15,10 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+/**
+ * The type Book.
+ */
+@Data @AllArgsConstructor @NoArgsConstructor @ToString
 @Entity
 @Table(name="books")
 public class Book {
@@ -20,10 +29,7 @@ public class Book {
     private String name;
     private String author;
     private Double price;
-
-    //Genre du livre
     private String genre;
-
 
     @Column(columnDefinition = "boolean default true")
     private Boolean available;
@@ -34,34 +40,14 @@ public class Book {
     @Nullable
     private String photoName;
 
-    /*@Nullable
-    @Temporal(TemporalType.DATE)
-    private Date borrowDate;*/
-
     @Nullable
     private LocalDate borrowDate;
 
-    //@JsonIgnore
     @ManyToOne
     @JoinColumn(name = "borrower_id")
     @Nullable
     private AppUser borrower;
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", author='" + author + '\'' +
-                ", price=" + price +
-                ", genre='" + genre + '\'' +
-                ", available=" + available +
-                ", isProlongation=" + isProlongation +
-                ", photoName='" + photoName + '\'' +
-                ", borrowDate=" + borrowDate +
-                ", borrower=" + borrower +
-                '}';
-    }
 }
 
 

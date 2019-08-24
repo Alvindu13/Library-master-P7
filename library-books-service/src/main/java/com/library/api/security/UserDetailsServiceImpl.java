@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.library.api.security;
 
 import com.library.api.persistance.dao.model.AppUser;
@@ -21,10 +29,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private AccountService accountService;
 
     /**
-     * Cette méthode de spring security permet de retourner un objet user grâce à un UserName.
-     * On créé un UserDetails propre à spring security à partir de notree User (AppUser) à nous.
+     * Spring security method
+     * Load a user: UserDetails by username
+     * This method enable to create a User: UserDetails (type spring security) with own User: AppUser
+     *
      * @param username
-     * @return On retourne l'USER Spring Security avec des paramètres par défauts (username, password, authorities) attendus par spring
+     * @return User: UserDetails with User: AppUser parameters
      * @throws UsernameNotFoundException
      */
     @Override

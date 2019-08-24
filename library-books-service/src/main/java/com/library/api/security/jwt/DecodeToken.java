@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2019. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package com.library.api.security.jwt;
 
 import com.auth0.jwt.JWT;
@@ -7,17 +15,23 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * The type Decode token.
+ */
 public class DecodeToken {
 
+    /**
+     * Decode jwt username.
+     *
+     * @param request the request
+     * @return the username string
+     */
     public String decodeUsername(HttpServletRequest request) {
+
         String jwtToken = request.getHeader("Authorization");
-        System.out.println("******************* Token = " + jwtToken);
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SecurityParams.SECRET)).build();
-        String jwt = jwtToken.substring(SecurityParams.HEADER_PREFIX.length());
-        System.out.println("******************* TOKEN SANS PREFIX = " + jwt);
         DecodedJWT decodedJWT = verifier.verify(jwtToken.substring(SecurityParams.HEADER_PREFIX.length()));
         String username = decodedJWT.getSubject();
-
 
         return username;
     }
