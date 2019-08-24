@@ -13,10 +13,12 @@ import com.library.api.persistance.dao.model.AppUser;
 import com.library.api.persistance.dao.repository.BookRepository;
 import com.library.api.security.AccountService;
 import com.library.api.persistance.dao.model.Book;
+import com.library.api.security.jwt.JwtProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,6 +29,7 @@ import java.util.stream.Stream;
 
 @SpringBootApplication
 @EnableSwagger2
+@EnableConfigurationProperties(JwtProperties.class)
 //@Import({springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration.class})
 public class StartBookApplication {
 
@@ -34,14 +37,19 @@ public class StartBookApplication {
     @Autowired
     private RepositoryRestConfiguration restConfiguration;
 
+    @Autowired
+    private JwtProperties jwtProperties;
+
+
     // start everything
     public static void main(String[] args) {
         SpringApplication.run(StartBookApplication.class, args);
     }
 
-
     @Bean
     CommandLineRunner start(AccountService accountService, BookRepository bookSvc){
+
+        System.out.println("try:" + jwtProperties.getSecret());
 
         restConfiguration.exposeIdsFor(AppUser.class);
         restConfiguration.exposeIdsFor(AppRole.class);

@@ -12,6 +12,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.library.api.persistance.dao.model.AppUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,6 +34,8 @@ import java.util.List;
  */
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    private JwtProperties jwtProperties;
+
     private AuthenticationManager authenticationManager;
 
     /**
@@ -40,7 +43,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      *
      * @param authenticationManager the authentication manager
      */
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JWTAuthenticationFilter(JwtProperties jwtProperties, AuthenticationManager authenticationManager) {
+        this.jwtProperties = jwtProperties;
         this.authenticationManager = authenticationManager;
     }
 
@@ -89,9 +93,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withSubject(user.getUsername())
                 .withArrayClaim("roles", roles.toArray(new String[roles.size()]))
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityParams.EXPIRATION))
-                .sign(Algorithm.HMAC256(SecurityParams.SECRET));
+                .sign(Algorithm.HMAC256(jwtProperties.getSecret()));
         response.addHeader(SecurityParams.JWT_HEADER_NAME, jwt);
-
     }
 
     //failed authentication

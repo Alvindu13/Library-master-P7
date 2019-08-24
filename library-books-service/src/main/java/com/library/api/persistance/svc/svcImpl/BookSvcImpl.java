@@ -134,6 +134,17 @@ public class BookSvcImpl implements BookSvc {
         return bookRepository.findBookById(bookId);
     }
 
+    /**
+     * Save book
+     * @param newBook the new book
+     * @return
+     */
+    @Override
+    public void save(Book newBook, String username) {
+        newBook.setBorrower(appUserRepository.findByUsername(username));
+        bookRepository.save(newBook);
+    }
+
 }
 
 

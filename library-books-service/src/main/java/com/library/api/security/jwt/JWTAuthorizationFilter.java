@@ -12,6 +12,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,6 +33,13 @@ import java.util.List;
  */
 @SuppressWarnings("Duplicates")
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
+
+
+    JwtProperties jwtProperties;
+
+    public JWTAuthorizationFilter(JwtProperties jwtProperties) {
+        this.jwtProperties = jwtProperties;
+    }
 
     /**
      * Spring security filter
@@ -68,9 +76,9 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
             }
 
-            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SecurityParams.SECRET)).build();
-            String jwt = jwtToken.substring(SecurityParams.HEADER_PREFIX.length());
-            System.out.println("******************* TOKEN SANS PREFIX = " + jwt);
+            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(jwtProperties.getSecret())).build();
+            //String jwt = jwtToken.substring(SecurityParams.HEADER_PREFIX.length());
+            //System.out.println("******************* TOKEN SANS PREFIX = " + jwt);
             DecodedJWT decodedJWT = verifier.verify(jwtToken.substring(SecurityParams.HEADER_PREFIX.length()));
             String username = decodedJWT.getSubject();
             List<String> roles = decodedJWT.getClaims().get("roles").asList(String.class);

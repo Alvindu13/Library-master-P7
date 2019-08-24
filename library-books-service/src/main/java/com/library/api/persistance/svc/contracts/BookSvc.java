@@ -57,7 +57,7 @@ public interface BookSvc {
     Long countByName(String name);
 
     /**
-     * Find all by borrower username list.
+     * Find all by borrower username.
      *
      * @param username the username
      * @return the list
@@ -71,4 +71,14 @@ public interface BookSvc {
      * @return the book
      */
     Book findBookById(Long bookId);
+
+
+
+    /**
+     * Save one book.
+     *
+     * @param newBook
+     * @param username
+     */
+    void save(Book newBook, String username);
 }

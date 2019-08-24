@@ -11,6 +11,7 @@ package com.library.api.web.controller;
 import com.library.api.persistance.svc.contracts.BookSvc;
 import com.library.api.persistance.dao.model.Book;
 import com.library.api.security.jwt.DecodeToken;
+import com.library.api.security.jwt.JwtProperties;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/books")
 public class BookController {
+
+    @Autowired
+    private JwtProperties jwtProperties;
 
     @Autowired
     private BookSvc bookSvc;
@@ -53,6 +57,18 @@ public class BookController {
     @GetMapping
     List<Book> getAllBooks() { return bookSvc.findAllBooks(); }
 
+
+    /**
+     * Save one book.
+     *
+     */
+    @ApiOperation(value = "Save one book")
+    @PostMapping
+    void saveBook(@RequestBody Book newBook, HttpServletRequest request) {
+        DecodeToken decodeToken = new DecodeToken(jwtProperties);
+        String username = decodeToken.decodeUsername(request);
+        bookSvc.save(newBook, username); }
+
     /**
      * Count books by name.
      *
@@ -72,7 +88,7 @@ public class BookController {
     @ApiOperation(value = "Find all books by borrower")
     @GetMapping("/user")
     List<Book> findAllByBorrower(HttpServletRequest request) {
-       DecodeToken decodeToken = new DecodeToken();
+       DecodeToken decodeToken = new DecodeToken(jwtProperties);
        String username = decodeToken.decodeUsername(request);
        return bookSvc.findAllByBorrowerUsername(username);
     }
@@ -86,7 +102,7 @@ public class BookController {
     @ApiOperation(value = "User reserve selected book")
     @PatchMapping("/{bookId}/reserve")
     void reserveBook(@PathVariable("bookId") Long bookId, HttpServletRequest request) {
-        DecodeToken decodeToken = new DecodeToken();
+        DecodeToken decodeToken = new DecodeToken(jwtProperties);
         String username = decodeToken.decodeUsername(request);
         bookSvc.reserve(bookSvc.findBookById(bookId), username);
     }

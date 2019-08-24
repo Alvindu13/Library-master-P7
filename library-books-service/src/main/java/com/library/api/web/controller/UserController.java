@@ -13,6 +13,7 @@ import com.library.api.persistance.dao.model.AppUser;
 import com.library.api.persistance.svc.contracts.AppUserSvc;
 import com.library.api.security.AccountService;
 import com.library.api.security.jwt.DecodeToken;
+import com.library.api.security.jwt.JwtProperties;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.Data;
@@ -29,6 +30,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/appUsers")
 public class UserController {
+
+    @Autowired
+    private JwtProperties jwtProperties;
 
     @Autowired
     private AccountService accountService;
@@ -69,7 +73,7 @@ public class UserController {
     @ApiOperation(value = "Get one user by username")
     @GetMapping("/selected/")
     AppUser findUserByUsername(HttpServletRequest request) {
-        DecodeToken decodeToken = new DecodeToken();
+        DecodeToken decodeToken = new DecodeToken(jwtProperties);
         String username = decodeToken.decodeUsername(request);
         return appUserSvc.findByUsername(username);
     }

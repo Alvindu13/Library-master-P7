@@ -10,9 +10,11 @@ package com.library.api.security;
 
 import com.library.api.security.jwt.JWTAuthenticationFilter;
 import com.library.api.security.jwt.JWTAuthorizationFilter;
+import com.library.api.security.jwt.JwtProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -36,6 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private JwtProperties jwtProperties;
+
     /**
      * Spring Security offre une API fluent pour configurer une authentification à partir de l'objet AuthenticationManagerBuilder.
      * @param auth
@@ -57,12 +62,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //on utilise plus les sessions de spring (sessions de l'user en mémoire)
         //http.authorizeRequests().antMatchers("/appUsers/**", "/appRoles/**").hasAuthority("ADMIN");
         http.authorizeRequests().antMatchers("/login/**", "/register/**").permitAll();
-        //http.authorizeRequests().antMatchers(HttpMethod.GET, "/books/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/books/**").authenticated();
         //http.authorizeRequests().antMatchers("/books/**").hasAuthority("ADMIN");
         //http.authorizeRequests().anyRequest().authenticated();
         http.authorizeRequests().anyRequest().permitAll(); // a delete après test
-        http.addFilter(new JWTAuthenticationFilter(authenticationManager()));
-        http.addFilterBefore(new JWTAuthorizationFilter() , UsernamePasswordAuthenticationFilter.class);
+        http.addFilter(new JWTAuthenticationFilter(jwtProperties, authenticationManager()));
+        http.addFilterBefore(new JWTAuthorizationFilter(jwtProperties) , UsernamePasswordAuthenticationFilter.class);
     }
 
 }
