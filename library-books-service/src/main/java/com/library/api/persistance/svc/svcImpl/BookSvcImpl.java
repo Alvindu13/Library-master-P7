@@ -141,6 +141,8 @@ public class BookSvcImpl implements BookSvc {
      */
     @Override
     public void save(Book newBook, String username) {
+        newBook.setIsProlongation(false);
+        newBook.setAvailable(true);
         newBook.setBorrower(appUserRepository.findByUsername(username));
         bookRepository.save(newBook);
     }
