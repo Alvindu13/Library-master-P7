@@ -31,4 +31,11 @@ public interface AppUserSvc {
      * @return the app user
      */
     AppUser findByUsername(String username);
+
+    /**
+     * Save new user.
+     *
+     * @param newAppUser
+     */
+    void save(AppUser newAppUser);
 }

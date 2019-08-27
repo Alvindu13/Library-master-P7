@@ -11,6 +11,7 @@ package com.library.api.persistance.svc.svcImpl;
 import com.library.api.persistance.dao.model.AppUser;
 import com.library.api.persistance.dao.repository.AppUserRepository;
 import com.library.api.persistance.svc.contracts.AppUserSvc;
+import com.library.api.security.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ import java.util.List;
 
 @Service
 public class AppUserSvcImpl implements AppUserSvc {
+
+
 
     @Autowired
     AppUserRepository appUserRepository;
@@ -30,5 +33,11 @@ public class AppUserSvcImpl implements AppUserSvc {
     @Override
     public AppUser findByUsername(String username) {
         return appUserRepository.findByUsername(username);
+    }
+
+    @Override
+    public void save(AppUser newAppUser) {
+        appUserRepository.save(newAppUser);
+
     }
 }

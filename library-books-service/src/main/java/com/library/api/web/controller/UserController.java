@@ -36,23 +36,7 @@ public class UserController {
     private JwtProperties jwtProperties;
 
     @Autowired
-    private AccountService accountService;
-
-    @Autowired
     private AppUserSvc appUserSvc;
-
-    /**
-     * Register app user.
-     *
-     * @param userForm the user form
-     * @return app user
-     */
-    @ApiOperation(value = "Save a new user")
-    @PostMapping("/register")
-    public AppUser register(@RequestBody UserForm userForm){
-        return accountService.saveUser(
-                userForm.getUsername(), userForm.getPassword(), userForm.getConfirmedPassword());
-    }
 
     /**
      * Find all users list.
@@ -78,14 +62,7 @@ public class UserController {
         String username =decodedJWT.getSubject();
         return appUserSvc.findByUsername(username);
     }
+
+
 }
 
-/**
- * The type User form.
- */
-@Data
-class UserForm{
-    private String username;
-    private String password;
-    private String confirmedPassword;
-}
