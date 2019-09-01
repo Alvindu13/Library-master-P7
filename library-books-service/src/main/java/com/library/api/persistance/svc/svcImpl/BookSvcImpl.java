@@ -143,7 +143,7 @@ public class BookSvcImpl implements BookSvc {
     public void save(Book newBook, String username) {
         newBook.setIsProlongation(false);
         newBook.setAvailable(true);
-        //newBook.setBorrower(appUserRepository.findByUsername(username));
+        newBook.setBorrower(appUserRepository.findByUsername(username));
         bookRepository.save(newBook);
     }
 
