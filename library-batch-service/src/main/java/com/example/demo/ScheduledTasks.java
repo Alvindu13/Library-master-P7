@@ -37,16 +37,18 @@ public class ScheduledTasks {
     /**
      * Batch scheduled.
      */
-    //@Scheduled(cron = "0 * * * * ?")
-    @Scheduled(cron = "0 0 0 11 ? * MON-FRI")
+    @Scheduled(cron = "0 * * * * ?")
+    //@Scheduled(cron = "0 0 0 11 ? * MON-FRI")
     public void batchScheduled() {
 
         RestTemplate restTemplate = new RestTemplate();
+
         ResponseEntity<List<Book>> response = restTemplate.exchange(
                 apiUrl + "/books",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Book>>(){});
+
         System.out.println("scheduled work : " + response.getBody());
 
         List<Book> books = response.getBody();
@@ -55,9 +57,9 @@ public class ScheduledTasks {
             books.forEach(book -> {
                 System.out.println("actually book : " + book.toString());
                 if (book.getBorrowDate() != null) {
-                    LocalDate dateStartEmail = book.getBorrowDate().plus(3, ChronoUnit.WEEKS);
+                    LocalDate dateStartEmail = book.getBorrowDate().plus(4, ChronoUnit.WEEKS);
                     LocalDate currentDate = LocalDate.now();
-                    if((ChronoUnit.DAYS.between(currentDate, dateStartEmail) <= 7 && ChronoUnit.DAYS.between(currentDate, dateStartEmail) >= 0)){
+                    if((ChronoUnit.DAYS.between(dateStartEmail, currentDate) >= 0)){
                         this.emailService.sendEmail(book);
                     }
                 }

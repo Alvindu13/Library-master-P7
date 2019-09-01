@@ -1,9 +1,32 @@
 # Library_Project
 
-## Api documentation
+## API documentation
 
 La documentation de l'API se trouve sur le site : http://localhost:9005/swagger-ui.html
 Certaines requêtes n'apparaissent par car sont fournis par Spring DATA REST. 
-Il n'était (à priori) pas possible de l'intégrer à SWAGGER dans sa release actuelle.
+Il n'était (à priori) pas possible de l'intégrer à SWAGGER dans sa release actuelle (maven repository).
+
+## Configuration
+
+# API
+
+Vous devez mettre un secret jwt et retirer la ligne spring.profil = dev ou la mettre en commentaire dans le fichier de configuration application.properties de l'api : library-books-service. 
+Ce secret est important pour décoder le token.
+
+# BATCH
+
+Vous devrez mettre votre adresse mail dans le fichier de configuration application.properties du batch : library-batch-service.
+Par défaut, la conf mail fonctionne pour gmail, mais il vous est possible de changer le web service en modifiant les paramètres de conf.
+Par défaut, il nécessaire d'avoir un compte google avec google authenticator pour permettre de générer un mot de passe d'application qu'il faudra renseigner dans le fichier conf. 
 
 
+## Start
+
+## API
+    
+
+
+## BATCH
+
+
+## CLIENT
