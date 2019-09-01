@@ -55,7 +55,6 @@ public class ScheduledTasks {
 
         if (books != null) {
             books.forEach(book -> {
-                System.out.println("actually book : " + book.toString());
                 if (book.getBorrowDate() != null) {
                     LocalDate dateStartEmail = book.getBorrowDate().plus(4, ChronoUnit.WEEKS);
                     LocalDate currentDate = LocalDate.now();
