@@ -81,4 +81,11 @@ public interface BookSvc {
      * @param username
      */
     void save(Book newBook, String username);
+
+    /**
+     * Stop book reserve.
+     *
+     * @param bookById
+     */
+    void stopReserve(Book bookById);
 }

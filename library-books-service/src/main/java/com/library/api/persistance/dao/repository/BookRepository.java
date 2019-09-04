@@ -10,6 +10,7 @@ package com.library.api.persistance.dao.repository;
 
 import com.library.api.persistance.dao.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
@@ -35,7 +36,9 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @param keyword the keyword
      * @return the list
      */
-    List<Book> findAllByNameContains(@Param("keyword") String keyword);
+    //@Query("SELECT DISTINCT b.name FROM Book b WHERE name NOT IN (?1)")
+    List<Book> findDistinctByName(String keyword);
+
 
     /**
      * Find book by id book.

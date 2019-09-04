@@ -109,6 +109,20 @@ public class BookController {
     }
 
     /**
+     * Stop reservation.
+     *
+     * @param bookId
+     * @param request
+     */
+    @ApiOperation(value = "User return book")
+    @PatchMapping("/{bookId}/reserve/stop")
+    void stopReserveBookReturn(@PathVariable("bookId") Long bookId, HttpServletRequest request) {
+        DecodedJWT decodedJWT = DecodeToken.decodeJWT(request, jwtProperties);
+        String username =decodedJWT.getSubject();
+        bookSvc.stopReserve(bookSvc.findBookById(bookId));
+    }
+
+    /**
      * Reserve extend.
      *
      * @param bookId the book id

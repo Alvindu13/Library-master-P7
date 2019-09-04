@@ -81,18 +81,18 @@ public class BookSvcImpl implements BookSvc {
     }
 
     /**
-     * Search by keyword
+     * Search books by keyword.
      *
      * @param keyword
      * @return
      */
     @Override
     public List<Book> findAllByNameContains(String keyword) {
-        return bookRepository.findAllByNameContains(keyword);
+        return bookRepository.findDistinctByName(keyword);
     }
 
     /**
-     * Find all books of db
+     * Find all books of db.
      *
      * @return
      */
@@ -102,7 +102,7 @@ public class BookSvcImpl implements BookSvc {
     }
 
     /**
-     * Count books in db
+     * Count books in db.
      *
      * @param name
      * @return
@@ -113,7 +113,7 @@ public class BookSvcImpl implements BookSvc {
     }
 
     /**
-     * Find books by parameters
+     * Find books by parameters.
      *
      * @param username of user connected
      * @return
@@ -124,7 +124,7 @@ public class BookSvcImpl implements BookSvc {
     }
 
     /**
-     * Find book by book_id
+     * Find book by book_id.
      *
      * @param bookId
      * @return
@@ -135,7 +135,8 @@ public class BookSvcImpl implements BookSvc {
     }
 
     /**
-     * Save book
+     * Save book.
+     *
      * @param newBook the new book
      * @return
      */
@@ -145,6 +146,19 @@ public class BookSvcImpl implements BookSvc {
         newBook.setAvailable(true);
         newBook.setBorrower(appUserRepository.findByUsername(username));
         bookRepository.save(newBook);
+    }
+
+    /**
+     * Stop book reserve.
+     *
+     * @param book
+     */
+    @Override
+    public void stopReserve(Book book) {
+        book.setAvailable(true);
+        book.setBorrower(null);
+        book.setIsProlongation(false);
+        //book.setReturnDate(currentDate);
     }
 
 }
