@@ -88,7 +88,7 @@ public class BookSvcImpl implements BookSvc {
      */
     @Override
     public List<Book> findAllByNameContains(String keyword) {
-        return bookRepository.findDistinctByName(keyword);
+        return bookRepository.findDistinctByNameContains(keyword);
     }
 
     /**

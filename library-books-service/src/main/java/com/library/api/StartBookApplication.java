@@ -49,8 +49,6 @@ public class StartBookApplication {
     @Bean
     CommandLineRunner start(AccountService accountService, BookRepository bookSvc){
 
-        System.out.println("try:" + jwtProperties.getSecret());
-
         restConfiguration.exposeIdsFor(AppUser.class);
         restConfiguration.exposeIdsFor(AppRole.class);
         restConfiguration.exposeIdsFor(Book.class);
@@ -70,12 +68,12 @@ public class StartBookApplication {
                     "Aventure", false,
                     false, null, LocalDate.now(),
                     accountService.loadUserByUsername("alcaraz.jeremie@hotmail.fr")));
-            bookSvc.save(new Book(2L, "Titanic", "Rose", 4.99,
+            bookSvc.save(new Book(2L, "Le Titanic A", "Rose", 4.99,
                     "Drama", true,
                     false, "unknow.png",
                     LocalDate.of(2019, 8, 17),
                     accountService.loadUserByUsername("alcaraz.jeremie@hotmail.fr")));
-            bookSvc.save(new Book(3L, "Titanic", "Rose", 4.99,
+            bookSvc.save(new Book(3L, "Le Titanic 2", "Rose", 4.99,
                     "Drama", true,
                     false, "unknow.png",
                     LocalDate.of(2019, 8, 6),
