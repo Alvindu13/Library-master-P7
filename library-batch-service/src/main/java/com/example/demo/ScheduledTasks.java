@@ -38,7 +38,7 @@ public class ScheduledTasks {
      * Batch scheduled. Send a email to customer all days à 11 am.
      */
     //@Scheduled(cron = "0 * * * * ?")
-    @Scheduled(cron = "0 0 0 11 ? * MON-FRI")
+    @Scheduled(cron = "0 0 11 ? * MON-SAT")
     public void batchScheduled() {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -53,6 +53,9 @@ public class ScheduledTasks {
 
         List<Book> books = response.getBody();
 
+        /*
+        Send a email to user if the current date is superior at the starter date to send email
+         */
         if (books != null) {
             books.forEach(book -> {
                 if (book.getBorrowDate() != null) {
