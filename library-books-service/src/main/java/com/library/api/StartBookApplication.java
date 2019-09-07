@@ -72,12 +72,12 @@ public class StartBookApplication {
                     "Drama", true,
                     false, "unknow.png",
                     LocalDate.of(2019, 8, 17),
-                    accountService.loadUserByUsername("alcaraz.jeremie@hotmail.fr")));
+                    accountService.loadUserByUsername("alvin.mysterio@gmail.com")));
             bookSvc.save(new Book(3L, "Le Titanic 2", "Rose", 4.99,
                     "Drama", true,
                     false, "unknow.png",
                     LocalDate.of(2019, 8, 6),
-                    accountService.loadUserByUsername("alcaraz.jeremie@hotmail.fr")));
+                    accountService.loadUserByUsername("alvin.mysterio@gmail.com")));
 
             bookSvc.save(new Book(
                     4L, "A Guide to the Bodhisattva Way of Life", "Santideva", 12.99,

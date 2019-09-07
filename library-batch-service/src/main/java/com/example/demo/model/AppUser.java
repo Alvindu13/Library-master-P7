@@ -15,10 +15,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-
 /**
  * The type App user.
  */

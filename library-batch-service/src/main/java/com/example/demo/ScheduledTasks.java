@@ -35,10 +35,10 @@ public class ScheduledTasks {
     private EmailService emailService;
 
     /**
-     * Batch scheduled.
+     * Batch scheduled. Send a email to customer all days à 11 am.
      */
-    @Scheduled(cron = "0 * * * * ?")
-    //@Scheduled(cron = "0 0 0 11 ? * MON-FRI")
+    //@Scheduled(cron = "0 * * * * ?")
+    @Scheduled(cron = "0 0 0 11 ? * MON-FRI")
     public void batchScheduled() {
 
         RestTemplate restTemplate = new RestTemplate();
