@@ -29,7 +29,7 @@ Par défaut, il nécessaire d'avoir un compte google avec google authenticator p
 
 Pour le build de l'application : 
 
-Spring boot importe un conteneur d'application.
+Spring boot importe un conteneur web.
 
 Pour démarrer l'application, vous avez plusieurs possibilités :
 
